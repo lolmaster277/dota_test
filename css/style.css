@@ -1,0 +1,16 @@
+.subcomment {
+    border-left: 2px #39393e solid !important;
+    margin-left: 25px;
+}
+
+.comments-textarea {
+    width: 100%;
+    max-width: none;
+    margin-top: 20px;
+    background: #2b2c32;
+    outline: none;
+    padding: 5px 10px 6px;
+    padding-top: 5px;
+    border: 0;
+    color: white;
+}
