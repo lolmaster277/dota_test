@@ -12,14 +12,21 @@ if (isset($_POST['commId'])) {
         $return['status'] = -1;
     } else {
        
-        $query = "UPDATE comments SET likes=likes+1 WHERE id='" . $_POST['commId'] . "'";
-        if (mysqli_query($link, $query)) {
+        $query = "UPDATE comments SET likes=likes+1 WHERE id=?";
+        $stmt = mysqli_prepare($link,$query);
+        mysqli_stmt_bind_param($stmt,"i",$_POST['commId']);
+       
+
+        if (mysqli_stmt_execute($stmt)) {
             $return['message'] = "Все ок";
             $return['status'] = 0;
         } else {
             $return['message'] = "Все плохо";
             $return['status'] = -2;
         }
+
+        mysqli_stmt_close($stmt);
+        mysqli_close($link);
     }
 } else {
     $return['message'] = "Все плохо";
