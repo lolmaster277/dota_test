@@ -15,9 +15,13 @@ if (isset($_POST['postId'])) {
         $return['message'] = "Все ок";
         $return['status'] = 0;
         //Один запрос в базу
-        $query = "SELECT * FROM comments WHERE id_news='" . $_POST['postId'] . "' ORDER BY date DESC";
-        $result = mysqli_query($link, $query);
-        $comments_before = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $query = "SELECT * FROM comments WHERE id_news=? ORDER BY date DESC";
+
+        $stmt=mysqli_stmt_prepare($link,$query);
+        mysqli_stmt_bind_param($stmt,"i",$_POST['postId']);
+        mysqli_stmt_execute($stmt);
+        $comments_before = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+        
         $return['comments'] = array();
         //Группировка по родителям
         foreach ($comments_before as $row) {
